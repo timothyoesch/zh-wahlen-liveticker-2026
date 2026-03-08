@@ -27,6 +27,8 @@ class ResultsSchedule extends Command
     {
         $this->info("Updating results...");
         $this->call("results:update");
+        $this->info("Find offsets");
+        $this->call("app:find-offsets");
         $this->info("Getting SR and Stapi results...");
         $this->call('results:get-sr-stapi');
         $this->info("Getting GR results...");

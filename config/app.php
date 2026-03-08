@@ -4,6 +4,7 @@ return [
 
     'gr_results_url' => env('GR_RESULTS_URL', ''),
     'sr_results_url' => env('SR_RESULTS_URL', ''),
+    'gr_vorlage_offset' => env('GR_VORLAGE_OFFSET', 7),
     'sr_vorlage_offset' => env('SR_VORLAGE_OFFSET', 941),
     'stapi_vorlage_offset' => env('STAPI_VORLAGE_OFFSET', 942),
     'cutoff_percentage' => env('CUTOFF_PERCENTAGE', 0.1),

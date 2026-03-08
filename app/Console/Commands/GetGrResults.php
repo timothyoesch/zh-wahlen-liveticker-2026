@@ -6,6 +6,7 @@ use App\Models\Botmessage;
 use App\Models\Datafile;
 use App\Models\District;
 use App\Models\Grkandi;
+use App\Settings\DataSettings;
 use Illuminate\Console\Command;
 use SebastianBergmann\Environment\Console;
 
@@ -30,6 +31,7 @@ class GetGrResults extends Command
      */
     public function handle()
     {
+        $settings = app(DataSettings::class);
         $newDatafile = Datafile::where('type', 'gr')->where('processed', false)->orderBy('timestamp', 'desc')->first();
         if (!$newDatafile) {
             $this->info("No new datafile found");
@@ -41,7 +43,7 @@ class GetGrResults extends Command
         }
         // Make GET Request to config('app.gr_results_url') and save the response to a variable
         $response = file_get_contents($newDatafile->filepath);
-        $electionResults = json_decode($response, true)["kantone"][1]["vorlagen"][7];
+        $electionResults = json_decode($response, true)["kantone"][1]["vorlagen"][$settings->gr_vorlage_offset];
 
         $this->handleDistricts($electionResults["wahlkreise"], $electionResults["resultat"]["kandidaten"]);
     }

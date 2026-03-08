@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grkandi extends Model
 {
-    protected $fillable = ['number', 'first_name', 'last_name', 'party', 'incumbent', 'votes', 'ranking', 'district_id'];
+    protected $fillable = ['number', 'first_name', 'last_name', 'party', 'incumbent', 'votes', 'ranking', 'district_id', 'identifier'];
 
     public function district()
     {

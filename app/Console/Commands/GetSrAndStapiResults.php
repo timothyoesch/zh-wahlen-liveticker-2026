@@ -9,6 +9,7 @@ use App\Models\Srkandi;
 use App\Models\Srresult;
 use App\Models\Stapikandi;
 use App\Models\Stapiresult;
+use App\Settings\DataSettings;
 use Illuminate\Console\Command;
 
 class GetSrAndStapiResults extends Command
@@ -32,6 +33,7 @@ class GetSrAndStapiResults extends Command
      */
     public function handle()
     {
+        $settings = app(DataSettings::class);
         $newDatafile = Datafile::where('type', 'sr')->where('processed', false)->orderBy('timestamp', 'desc')->first();
         if (!$newDatafile) {
             $this->info("No new datafile found");
@@ -43,8 +45,8 @@ class GetSrAndStapiResults extends Command
         }
         $response = file_get_contents($newDatafile->filepath);
         $electionResults = json_decode($response, true)["kantone"][1]["vorlagen"];
-        $srResults = $electionResults[config('app.sr_vorlage_offset')];
-        $stapiResults = $electionResults[config('app.stapi_vorlage_offset')];
+        $srResults = $electionResults[$settings->sr_vorlage_offset];
+        $stapiResults = $electionResults[$settings->stapi_vorlage_offset];
 
         $this->handleSrResults($srResults);
         $this->handleStapiResults($stapiResults);
