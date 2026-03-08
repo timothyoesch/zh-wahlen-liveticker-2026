@@ -83,9 +83,9 @@ class GetSrAndStapiResults extends Command
 
         foreach ($newDistricts as $districtId) {
             $districtResults = Srresult::where("district_id", $districtId)->with("candidate")->orderBy("votes", "desc")->get();
-            $districtCutoff = ceil($districtResults->sum("votes") * config('app.cutoff_percentage'));
+            $districtCutoff = ceil($districtResults->sum("votes") / 9 * config('app.cutoff_percentage'));
             $allResults = Srresult::groupBy("srkandi_id")->selectRaw("sum(votes) as votes, srkandi_id")->orderBy("votes", "desc")->get();
-            $allCutoff = ceil($allResults->sum("votes") * config('app.cutoff_percentage'));
+            $allCutoff = ceil($allResults->sum("votes") / 9 * config('app.cutoff_percentage'));
             $absoluteMajority = ceil($allResults->sum("votes") / 18);
             Botmessage::create([
                 "title" => "Ergebnis Stadtratswahlen im Wahlkreis " . District::find($districtId)->name,
